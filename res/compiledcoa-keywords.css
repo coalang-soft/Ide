@@ -1,0 +1,15 @@
+.compiledcoa-var {
+    -fx-fill: purple;
+}
+.compiledcoa-put {
+    -fx-fill: blue;
+}
+.compiledcoa-get {
+    -fx-fill: orange;
+}
+.compiledcoa-stack {
+    -fx-fill: lightgreen;
+}
+.compiledcoa-util {
+    -fx-fill: gray;
+}

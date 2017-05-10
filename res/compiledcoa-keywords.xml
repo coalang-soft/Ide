@@ -1,0 +1,27 @@
+<xmlStyleHelper>
+    <infos>
+        <category>VAR</category>
+        <pattern>\b(reserve|load|store|newscope|oldscope|store1)\b</pattern>
+        <styleClass>compiledcoa-var</styleClass>
+    </infos>
+    <infos>
+        <category>PUT</category>
+        <pattern>\b(putM|putI|putS|putA)\b</pattern>
+        <styleClass>compiledcoa-put</styleClass>
+    </infos>
+    <infos>
+        <category>GET</category>
+        <pattern>\b(get)\b</pattern>
+        <styleClass>compiledcoa-get</styleClass>
+    </infos>
+    <infos>
+        <category>STACK</category>
+        <pattern>\b(pop|invoke|duplicate)\b</pattern>
+        <styleClass>compiledcoa-stack</styleClass>
+    </infos>
+    <infos>
+        <category>UTIL</category>
+        <pattern>\b(sPut|sPop)\b</pattern>
+        <styleClass>compiledcoa-util</styleClass>
+    </infos>
+</xmlStyleHelper>
