@@ -1,0 +1,32 @@
+.coalang-keyword {
+    -fx-fill: purple;
+    -fx-font-weight: bold;
+}
+.coalang-pre {
+    -fx-fill: green;
+    -fx-font-weight: lighter;
+}
+.coalang-string {
+    -fx-fill: blue;
+    -fx-font-weight: lighter;
+}
+.coalang-spec {
+    -fx-fill: darkgray;
+    -fx-font-weight: lighter;
+}
+.coalang-comment {
+    -fx-fill: lightgreen;
+}
+.coalang-var {
+    -fx-fill: darkred;
+}
+.coalang-property {
+    -fx-fill: darkorange;
+}
+.coalang-number {
+    -fx-fill: darkblue;
+}
+.coalang-syntaxmod {
+    -fx-fill: darkgreen;
+    -fx-font-weight: bold;
+}

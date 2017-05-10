@@ -1,0 +1,92 @@
+#include ccl/jio/Stream.cl2
+
+var Actions;
+
+{
+    var jar = "-jar";
+    var compile = "-compile";
+    var lib = "-lib";
+    
+    def runFile(file){
+        var launcher = File(getSetting("coa.dir") & "launcher.bat");
+        java("java.io.File")(getSetting("coa.dir")).mkdirs();
+        
+        var jarFile = getSetting("coa.jar");
+        
+        var prog = "java -jar " 
+                & jarFile 
+                & " -compile " 
+                & file.getPath()
+                & " -lib "
+                & getSetting("coa.lib");
+        var path = file.getPath();
+        path = path.substring(0,path.length() - 1) & "0";
+        prog = prog & "\njava -jar "
+                & jarFile & " "
+                & path;
+        prog = prog & "\ndel " & File(getSetting("coa.dir") & "*.cl2").getPath();
+        prog = prog & "\npause\nexit";
+        
+        launcher.writeString(prog);
+        
+        java("java.lang.Runtime").getRuntime().exec(
+            "cmd /c start launcher", undefined,
+            java("java.io.File")(getSetting("coa.dir"))
+        );
+    }
+    
+    def run(tabs){
+        var tabArray = array(tabs.getTabs().toArray());
+        tabArray = <i|tabArray.get(i)>.for(0,tabArray.length()-2);
+        for(tabArray){
+            var tab = @.0;
+            if(fileTabMap.get(tab).type == "undefined"){
+                println(tab);
+                var fc = JUI.FileChooser();
+                fc.setTitle("Save " & tab.getText());
+                var file = fc.showSaveDialog(tabs.getScene().getWindow());
+                if(file.type == "undefined"){
+                    println("Info: No file selected!");
+                    return null;
+                }else{
+                    file = File(file.getPath());
+                    tab.setText(file.getName());
+                    fileTabMap.put(tab,file);
+                }
+            }
+            fileTabMap.get(tab).writeString(tab.getContent().getContent().getText());
+            openFile(fileTabMap.get(tab), tab);
+        }
+        runFile(fileTabMap.get(tabs.getSelectionModel().getSelectedItem()));
+    }
+    
+    def open(tabs){
+        var file = JUI.FileChooser().showOpenDialog(tabs.getScene().getWindow());
+        var tab = tabs.getSelectionModel().getSelectedItem();
+        if(file.type == "undefined"){
+            println("Info: No file selected!");
+            return null;
+        }else{
+            file = File(file.getPath());
+            openFile(file,tab);
+        }
+    }
+    
+    def openFile(file, tab){
+        tab.setText(file.getName());
+        fileTabMap.put(tab,file);
+        var extension = array(file.getName().split("\\."));
+        extension = extension.get(extension.length() - 1);
+        var code = createCodeArea("extension." & extension);
+        tab.getTabPane().getScene().getStylesheets().add(
+            getSyntaxCss("extension." & extension)
+        );
+        code.replaceText(0,0, file.buildString());
+        tab.setContent(CodeScrollPane(code));
+    }
+    
+    Actions = [
+        run:run,
+        open:open
+    ];
+}

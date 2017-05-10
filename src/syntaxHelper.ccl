@@ -1,0 +1,17 @@
+def getSyntaxCss(name){
+    var syntaxName = getSyntax(name);
+    if(syntaxName.type == "undefined"){
+        return getSyntaxCss("defaultsyntax");
+    }else{
+        return File(getSetting("ide.res") & syntaxName & "-keywords.css").toUrl();
+    }
+}
+def getSyntaxXml(name){
+    var syntaxName = getSyntax(name);
+    if(syntaxName.type == "undefined"){
+        println("Using default syntax instead of " & name);
+        return getSyntaxXml("defaultsyntax");
+    }else{
+        return File(getSetting("ide.res") & syntaxName & "-keywords.xml");
+    }
+}

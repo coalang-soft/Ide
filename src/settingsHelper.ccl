@@ -1,0 +1,13 @@
+var Properties = java("java.util.Properties");
+
+var settings = Properties();
+settings.load(File(File("./settingspath.txt").buildString()).reader());
+def getSetting(name){
+    return settings.native("getProperty")(name);
+}
+
+var syntaxes = Properties();
+syntaxes.load(File(getSetting("ide.res") & "syntax.properties").reader());
+def getSyntax(name){
+    return syntaxes.native("getProperty")(name);
+}

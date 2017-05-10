@@ -1,0 +1,7 @@
+<xmlStyleHelper>
+    <infos>
+        <category>VALUE</category>
+        <pattern>=[^\n]+</pattern>
+        <styleClass>properties-value</styleClass>
+    </infos>
+</xmlStyleHelper>

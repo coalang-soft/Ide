@@ -1,0 +1,87 @@
+#include ccl/jui/JUI.cl2
+#include ccl/jui/Launcher.cl2
+#include <io/File>
+#include <Console>
+
+#include "../src/SuitePart.ccl"
+#include "../src/Actions.ccl"
+#include "../src/settingsHelper.ccl"
+#include "../src/syntaxHelper.ccl"
+
+//Global
+var tabs;
+var ctr = 1;
+
+//SuiteFX Library
+var SuiteView = java("io.github.coalangsoft.intern.suitefx.SuiteView");
+
+//RichTextFX
+var CodeArea = java("io.github.coalangsoft.richtextfxextension.PropertyBasedCodeArea");
+var styleHelperClass = "test.XmlStyleHelper";
+styleHelperClass = java("ccl.csy.CCL").classFinder.find(styleHelperClass);
+var CodeScrollPane = java("org.fxmisc.flowless.VirtualizedScrollPane");
+
+//FXParts
+var TabFactoryPane = java("io.github.coalangsoft.intern.fxparts.TabFactoryPane");
+
+//XML
+var XmlParser = java("cpa.subos.xml.XmlParser");
+
+//Data
+var Map = java("java.util.HashMap");
+var fileTabMap = Map();
+
+def tabFactory(tab){
+    fileTabMap.push(tab, undefined);
+    println(fileTabMap);
+    tab.setText("Unnamed " & integer(ctr).toString());
+    ctr = ctr + 1;
+    return createView();
+}
+
+def createCodeArea(syntaxName){
+    var code = CodeArea();
+    var sh = XmlParser().parse(styleHelperClass, getSyntaxXml(syntaxName).reader());
+    sh.attach(code);
+    code.setFont(JUI.Font.font(integer(getSetting("ide.font.size"))));
+    return code;
+}
+
+def createView(){
+    var code = createCodeArea("defaultsyntax");
+    code.replaceText(0,0,"def main(){\n\t\n}\nmain();");
+    return CodeScrollPane(code);
+}
+
+def createTools(){
+    var list = java("java.util.ArrayList")();
+    list.add.for([
+        JUI.control("Button")(
+            "Run",
+            "onAction" => Actions.run.bind(tabs)
+        ),
+        JUI.control("Button")(
+            "Open",
+            "onAction" => Actions.open.bind(tabs)
+        )
+    ]);
+    return list;
+}
+
+def start(stage){
+    var root = SuiteView("IDE");
+    tabs = TabFactoryPane(
+        "tabFactory" => tabFactory.bind()
+    );
+    root.add(SuitePart(
+        "Demo",
+        "viewFactory" => tabs,
+        "toolsFactory" => createTools
+    ));
+    var scene = JUI.Scene(root);
+    scene.getStylesheets().add(getSyntaxCss("defaultsyntax"));
+    stage.setScene(scene);
+    stage.show();
+}
+
+Launcher().launch(start);
