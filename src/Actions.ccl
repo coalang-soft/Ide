@@ -3,39 +3,66 @@
 var Actions;
 
 {
+    
+    var runConfigs;
+    {
+        //Run configurations
+        def none(file){
+            #include "../src/run/none.ccl"
+        }
+        def coalang(file){
+            #include "../src/run/coalang.ccl"
+        }
+        def compiledcoa(file){
+            #include "../src/run/compiledcoa.ccl"
+        }
+        
+        runConfigs = [
+            none:none,
+            coalang:coalang,
+            compiledcoa:compiledcoa,
+            
+            default:none
+        ];
+        
+    }
+    
+    def registerRunner(file){
+        var func = eval.js("function(file){" & File(file).buildString() & "};");
+        runConfigs.setProperty(
+            array(file.getName().split("\\.")).get(0), 
+            func
+        );
+    }
+    
+    var customRunnerDir = java("cpa.subos.io.file.DirectoryImpl")(
+        java("java.io.File")(getSetting("ide.res") & "runners")
+    );
+    customRunnerDir.listFiles().forEach(registerRunner);
+    
     var jar = "-jar";
     var compile = "-compile";
     var lib = "-lib";
     
     def runFile(file){
-        var launcher = File(getSetting("coa.dir") & "launcher.bat");
-        java("java.io.File")(getSetting("coa.dir")).mkdirs();
         
-        var jarFile = getSetting("coa.jar");
+        var extension = array(file.getName().split("\\."));
+        extension = extension.get(extension.length() - 1);
+        var category = getSyntax("extension." & extension);
         
-        var prog = "java -jar " 
-                & jarFile 
-                & " -compile " 
-                & file.getPath()
-                & " -lib "
-                & getSetting("coa.lib");
-        var path = file.getPath();
-        path = path.substring(0,path.length() - 1) & "0";
-        prog = prog & "\njava -jar "
-                & jarFile & " "
-                & path;
-        prog = prog & "\ndel " & File(getSetting("coa.dir") & "*.cl2").getPath();
-        prog = prog & "\npause\nexit";
-        
-        launcher.writeString(prog);
-        
-        java("java.lang.Runtime").getRuntime().exec(
-            "cmd /c start launcher", undefined,
-            java("java.io.File")(getSetting("coa.dir"))
-        );
+        if(category.type == "undefined"){
+            runConfigs.default(file);
+        }else{
+            var f = runConfigs[category];
+            if(f.type == "error"){
+                println("No starter found: '" & category & "'");
+            }else{
+                f(file);
+            }
+        }
     }
     
-    def run(tabs){
+    def run(tabs){        
         var tabArray = array(tabs.getTabs().toArray());
         tabArray = <i|tabArray.get(i)>.for(0,tabArray.length()-2);
         for(tabArray){

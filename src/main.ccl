@@ -4,9 +4,9 @@
 #include <Console>
 
 #include "../src/SuitePart.ccl"
-#include "../src/Actions.ccl"
 #include "../src/settingsHelper.ccl"
 #include "../src/syntaxHelper.ccl"
+#include "../src/Actions.ccl"
 
 //Global
 var tabs;

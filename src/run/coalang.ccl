@@ -1,0 +1,27 @@
+var launcher = File(getSetting("coa.dir") & "launcher.bat");
+java("java.io.File")(getSetting("coa.dir")).mkdirs();
+
+var jarFile = getSetting("coa.jar");
+
+var prog = "java -jar " 
+        & jarFile 
+        & " -compile " 
+        & file.getPath()
+        & " -lib "
+        & getSetting("coa.lib");
+        
+var path = file.getPath();
+path = path.substring(0,path.length() - 1) & "0";
+prog = prog & "\njava -jar "
+        & jarFile & " "
+        & path;
+        
+prog = prog & "\ndel " & File(getSetting("coa.dir") & "*.cl2").getPath();
+prog = prog & "\npause\nexit";
+
+launcher.writeString(prog);
+
+java("java.lang.Runtime").getRuntime().exec(
+    "cmd /c start launcher", undefined,
+    java("java.io.File")(getSetting("coa.dir"))
+);
