@@ -28,4 +28,10 @@ file-append ./compile-ide.bat "java -jar ../use-ccl/ccl0.4.7.jar -compile ../Ide
 file-append-newline ./compile-ide.bat
 file-append ./compile-ide.bat "echo java -jar ../use-ccl/ccl0.4.7.jar ../Ide/src/main.cc0 -lib-files \"../richtextfx/richtextfx-demos-fat-0.7-M5.jar;../richtextfxextension/src;../subos-xml-java/standalone-src;../I_SuiteFX/src;../jsearchfx/standalone-src;../dragdropfx/standalone-src;../FXParts/src\">run.bat"
 file-append-newline ./compile-ide.bat
-file-append ./compile-ide.bat "echo ../Ide/res/settings.properties>settingspath.txt"
+file-append ./compile-ide.bat "cd .."
+file-append-newline ./compile-ide.bat
+file-append ./compile-ide.bat "<nul set /p=%cd%/Ide/res/settings.properties>ide-compile-here/settingspath.txt"
+file-append-newline ./compile-ide.bat
+file-append ./compile-ide.bat "echo cd ide-compile-here>run-ide.bat"
+file-append-newline ./compile-ide.bat
+file-append ./compile-ide.bat "echo run.bat>>run-ide.bat"
