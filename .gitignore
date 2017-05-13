@@ -1,3 +1,4 @@
 *.cc0
 bin
 projectbin
+lib

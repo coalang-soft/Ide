@@ -8,13 +8,13 @@ var Actions;
     {
         //Run configurations
         def none(file){
-            #include "../src/run/none.ccl"
+            #include run/none.ccl
         }
         def coalang(file){
-            #include "../src/run/coalang.ccl"
+            #include run/coalang.ccl
         }
         def compiledcoa(file){
-            #include "../src/run/compiledcoa.ccl"
+            #include run/compiledcoa.ccl
         }
         
         runConfigs = [

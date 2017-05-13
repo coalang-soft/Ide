@@ -3,10 +3,10 @@
 #include <io/File>
 #include <Console>
 
-#include "../src/SuitePart.ccl"
-#include "../src/settingsHelper.ccl"
-#include "../src/syntaxHelper.ccl"
-#include "../src/Actions.ccl"
+#include SuitePart.ccl
+#include settingsHelper.ccl
+#include syntaxHelper.ccl
+#include Actions.ccl
 
 //Global
 var tabs;
