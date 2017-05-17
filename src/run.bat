@@ -1,8 +1,10 @@
 @echo off
 cd ..
 md lib
-copy .\src\*.* .\lib
-perl F:\Info\antlangsoft\mulpam\mulpam\mulpam.pl dir-copy F:\Info\Java\NewWorkspace\CCL\CclJars\ccl ./lib/ccl
+xcopy /y src lib
+xcopy /y F:\Info\Java\NewWorkspace\CCL\CclJars\ccl lib\ccl
+md lib\run
+xcopy /y src\run lib\run
 md bin
 cd bin
 java -jar F:\Info\Java\NewWorkspace\CCL\CclJars\ccl0.4.7.jar -compile ../src/main.ccl -lib ..\lib -config
