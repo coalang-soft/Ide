@@ -2,7 +2,8 @@ var SuitePartClass = java("io.github.coalangsoft.intern.suitefx.SuitePart");
 
 def SuitePart(name){
     var viewFactory;
-    var toolsFactory = java("java.util.ArrayList");
+    var toolsFactory = java("java.util.ArrayList").unbind(1);
+    var menuFactory = java("java.util.ArrayList").unbind(1);
 
     def setViewFactory(vf){
         viewFactory = vf;
@@ -10,19 +11,23 @@ def SuitePart(name){
     def setToolsFactory(tf){
         toolsFactory = tf;
     }
+    def setMenuFactory(mf){
+        menuFactory = mf;
+    }
 
     var ret = SuitePartClass([
-        createMenus:<|java("java.util.ArrayList")()>,
+        createMenus:<se|menuFactory(se)>,
         updateView:<|>,
         storeState:<|>,
         restoreState:<|>,
         getName:name,
         createView:<|viewFactory()>,
-        createTools:<|toolsFactory()>
+        createTools:<se|toolsFactory()>
     ]);
     
     ret.setProperty("setViewFactory", setViewFactory);
     ret.setProperty("setToolsFactory", setToolsFactory);
+    ret.setProperty("setMenuFactory", setMenuFactory);
     
     return ret;
 }

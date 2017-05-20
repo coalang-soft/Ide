@@ -1,0 +1,341 @@
+//Standard libraries
+#include ccl/jui/JUI.cl2
+#include ccl/jui/Launcher.cl2
+#include ccl/jui/XYChart.cl2
+#include ccl/jui/Image.cl2
+#include <Console>
+#include <io/File>
+#include <io/String>
+
+var createAntLangView, createAntLangMenus;
+
+{
+
+//JavaFX classes
+var ObjectProperty   = java("javafx.beans.property.SimpleObjectProperty");
+var StringProperty   = java("javafx.beans.property.SimpleStringProperty");
+var ClipboardContent = java("javafx.scene.input.ClipboardContent");
+var Clipboard        = java("javafx.scene.input.Clipboard");
+var NumberAxis       = JUI.chart("NumberAxis");
+var ImageView        = java("javafx.scene.image.ImageView");
+var FileChooser      = java("javafx.stage.FileChooser");
+
+//Temp
+var lastTextField, lastCaretPosition;
+
+def onTextFieldCaret(tf){
+	if(tf.isFocused()){
+		lastTextField = tf;
+		lastCaretPosition = tf.getCaretPosition();
+	}
+}
+
+def onInputChange(cdf){
+    var antResult = eval.ant(cdf.getValue().get(0).getValue());
+    if(antResult.type == "unknown"){
+        antResult = "{}";
+    }
+    cdf.getValue().get(1).setValue(antResult);
+}
+
+def textFieldFactory(cdf){
+    var tf = JUI.control("TextField")();
+    tf.textProperty().bindBidirectional(
+        cdf.getValue().get(0)
+    );
+    tf.setOnAction(
+        onInputChange.bind(cdf)
+    );
+    if(stage.DnD.type.equals("error")!){
+    	stage.DnD.handle(tf);
+    }
+    tf.caretPositionProperty().addListener(onTextFieldCaret.bind(tf));
+    tf.focusedProperty().addListener(onTextFieldCaret.bind(tf));
+    
+    return ObjectProperty(tf);
+}
+
+def makeItem(expression:""){
+    return [
+        calc:StringProperty(expression),
+        result:ObjectProperty("Press enter to update the result")
+    ];
+}
+
+def sendToClipboard(txt){
+    var content = ClipboardContent();
+    content.putString(txt);
+    Clipboard.getSystemClipboard().setContent(content);
+}
+
+def onCharControlAction(charText){
+	sendToClipboard(charText);
+	if(lastTextField.type.equals("undefined")!){
+		var lcp = lastCaretPosition;
+		var ltf = lastTextField;
+		var t1 = ltf.getText().substring(0, lcp);
+		var t2 = ltf.getText().substring(lcp, ltf.getText().length());
+		ltf.requestFocus();
+		if(ltf.isFocused()){
+			ltf.setText(t1 & charText & t2);
+			ltf.positionCaret(lcp + charText.length());
+		}
+	}
+}
+
+def makeCharControl(type, c, text:c.toString()){
+    var charText = c.toString();
+    return JUI.control(type)(
+        text,
+        "onAction" => onCharControlAction.bind(charText)
+    );
+}
+
+def makeConstantControl(type, const){
+    return makeCharControl(type, const, const & "\t(" & eval.ant(const).toString() & ")");
+}
+
+
+
+def makeButtonBar(table){
+    var newRow = JUI.control("Button")(
+        "add row",
+        "onAction" => <|table.getItems().add(makeItem())>
+    );
+    
+    var hbox = JUI.layout("HBox")([
+        newRow
+    ]);
+    
+    if(antChars.type == "string"){
+        hbox.getChildren().add.for(makeCharControl.bind("Button").for(
+            array(antChars.toCharArray())
+        ));
+    }
+    
+    return hbox;
+}
+
+def addSeries(chart, antLangCode){
+    var func = eval.ant(antLangCode);
+    if(func.type == "unknown"){
+        if(func(integer("-100")).type == "error"){return;}
+        chart.getData().add(
+            XYSeries(
+                <x|x>, func, integer("-100"), 100,
+                antLangCode
+            )
+        );
+    }
+}
+
+def onImageDrag(chart){
+	var db = chart.startDragAndDrop(java("javafx.scene.input.TransferMode").ANY);
+	
+	var content = java("javafx.scene.input.ClipboardContent")();
+	content.putImage(chart.snapshot(undefined,undefined));
+	
+	db.setContent(content);
+}
+
+def onChartTabSelection(tab, table){
+    if(tab.isSelected()){
+        tab.setContent(JUI.control("Label")("Rendering..."));
+        var chart = JUI.chart("LineChart")(NumberAxis(), NumberAxis());
+        addSeries.bind(chart).for(
+            <i|i.get(0).getValue()>.for(
+                array(table.getItems().toArray())
+            )
+        );
+        chart.setOnDragDetected(onImageDrag.bind(chart));
+        tab.setContent(chart);
+    }
+}
+
+def loadLibrary(file){
+    var path = file.getAbsolutePath();
+    if(path.type == "string"){
+        var ioFile = File(path);
+        eval.ant(ioFile.buildString());
+    }
+}
+
+def chooseFile(type){
+	var fc = FileChooser();
+	var f = fc["show" & type & "Dialog"](stage);
+	if(f == fc){
+		return undefined;
+	}else{
+		return f;
+	}
+}
+
+def onSave(){
+	var file = chooseFile("Save");
+	if(file.getPath().equals("error")!){
+		var f = File(file.getAbsolutePath());
+		if(f.hasParent()){
+			f.getParent().createDirectory();
+		}
+		var fc = String();
+		fc.writeFormattedString.bind("UTF-8").for(
+			<index|table.getItems().get(index).get(0).getValue() & "\n">
+			.for(0,table.getItems().size() - 1)
+		);
+		f.downloadFrom(fc);
+	}
+}
+
+def onLoad(){
+	var file = chooseFile("Open");
+	if(file.type.equals("undefined")!){
+		var f = File(file.getAbsolutePath());
+		table.getItems().add.for(makeItem.for(array(
+			f.buildString("UTF-8").split("\n")
+		)));
+	}
+}
+
+def makeMenus(se){
+    println(se);
+    
+    //Register char infos    
+    def register(i){
+    	var c = antChars.charAt(i).toString();
+    	var info = charInfos[i];
+        println(info);
+    	println(se.alias.bind(c).for(info));
+    }
+    register.for(0, charInfos.length() - 1);
+    
+    var operatorsMenu = JUI.control("Menu")("Operators");
+    if(antChars.type == "string"){
+        operatorsMenu.getItems().add.for(makeCharControl.bind("MenuItem").for(
+            array(antChars.toCharArray())
+        ));
+    }
+    
+    var comparisonMenu = JUI.control("Menu")("Comparison");
+    comparisonMenu.getItems().add.for([
+        makeCharControl("MenuItem", "eq", "eq (equals)"),
+        makeCharControl("MenuItem", "lt", "lt (less than)"),
+        makeCharControl("MenuItem", "gt", "gt (greater than)"),
+        JUI.control("SeparatorMenuItem")(),
+        makeCharControl("MenuItem", "ne", "ne (not equal)"),
+        makeCharControl("MenuItem", "le", "le (less or equal)"),
+        makeCharControl("MenuItem", "ge", "ge (greater or equal)")
+    ]);
+    
+    var variablesMenu = JUI.control("Menu")("Variables");
+    variablesMenu.getItems().add.for([
+        makeCharControl("MenuItem", "x", "x (first parameter)"),
+        makeCharControl("MenuItem", "y", "y (second parameter)"),
+        JUI.control("SeparatorMenuItem")(),
+        makeConstantControl("MenuItem", "pi"),
+        makeConstantControl("MenuItem", "tau"),
+        makeConstantControl("MenuItem", "etau"),
+        makeConstantControl("MenuItem", "e")
+    ]);
+    
+    var fileMenu = JUI.control("Menu")("File");
+    fileMenu.getItems().addAll([
+        JUI.control("MenuItem")(
+            "Load library...",
+            "onAction" => <|loadLibrary(chooseFile("Open"))>
+        ),
+        JUI.control("MenuItem")(
+        	"Save...",
+        	"onAction" => <|onSave()>
+        ),
+        JUI.control("MenuItem")(
+        	"Load...",
+        	"onAction" => <|onLoad()>
+        )
+    ]);
+    
+    var antLangMenu = JUI.control("Menu")("AntLang");
+    antLangMenu.getItems().add.for([
+        operatorsMenu,
+        variablesMenu,
+        comparisonMenu
+    ]);
+    
+    var list = java("java.util.ArrayList")();
+    list.add.for([
+        fileMenu,
+        antLangMenu
+    ]);
+    
+    return list;
+}
+
+//Load AntLang Characters
+var antChars;
+var charInfos = [];
+{
+    var charFile = File("antChars.txt");
+    if(charFile.exists()){
+    	antChars = "";
+    	var lines = array(charFile.buildString("UTF-8").split("\n"));
+    	lines = <s|s.trim()>.for(lines);
+    	
+    	var requireChar = true;
+    	
+    	def process(line){
+    		if(requireChar){
+    			antChars = antChars & line;
+    			requireChar = false;
+    		}else{
+    			charInfos.push(array(line.trim().split(" ")));
+    			requireChar = true;
+    		}
+    	}
+    	
+    	process.for(lines);
+    }
+}
+
+def createView(){
+    #include ccl/eval/AntLang.cl2
+    
+    var table = JUI.control("TableView")();
+    var inputColumn = JUI.control("TableColumn")("Input");
+    var outputColumn = JUI.control("TableColumn")("Result");
+    
+    inputColumn.setCellValueFactory(textFieldFactory.bind());
+    table.getColumns().add(inputColumn);
+    
+    outputColumn.setCellValueFactory(<cdf|cdf.getValue().get(1)>);
+    table.getColumns().add(outputColumn);
+    
+    table.getItems().add(makeItem());
+    
+    var chartTab = JUI.control("Tab")(
+        "Chart"
+    );
+    chartTab.setContent(JUI.control("Label")("Chart"));
+    chartTab.selectedProperty().addListener(
+        onChartTabSelection.bind(chartTab, table)
+    );
+    
+    var tableTab = JUI.control("Tab")(
+        "Table",
+        "content" => JUI.layout("BorderPane")(
+            "center" => table,
+            "bottom" => makeButtonBar(table)
+        )
+    );
+    
+    var tabPane = JUI.control("TabPane")();
+    tabPane.getTabs().add.for([
+        tableTab,
+        chartTab
+    ]);
+    
+    return tabPane;
+}
+
+createAntLangView = createView;
+createAntLangMenus = makeMenus;
+
+}

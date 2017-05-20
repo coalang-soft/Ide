@@ -7,6 +7,7 @@
 #include settingsHelper.ccl
 #include syntaxHelper.ccl
 #include Actions.ccl
+#include antide.ccl
 
 //Global
 var tabs;
@@ -68,15 +69,24 @@ def createTools(){
     return list;
 }
 
-def start(stage){
-    var root = SuiteView("IDE");
+def baseViewFactory(){
     tabs = TabFactoryPane(
         "tabFactory" => tabFactory.bind()
     );
+    return tabs;
+}
+
+def start(stage){
+    var root = SuiteView("IDE");
     root.add(SuitePart(
-        "Demo",
-        "viewFactory" => tabs,
+        "Editor",
+        "viewFactory" => baseViewFactory,
         "toolsFactory" => createTools
+    ));
+    root.add(SuitePart(
+        "AntLang",
+        "viewFactory" => createAntLangView,
+        "menuFactory" => createAntLangMenus
     ));
     var scene = JUI.Scene(root);
     scene.getStylesheets().add(getSyntaxCss("defaultsyntax"));

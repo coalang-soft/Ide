@@ -23,6 +23,8 @@ system "javac ./fxparts/src/io/github/coalangsoft/intern/fxparts/TabFactoryPane.
 system "javac ./ide/install/FinishInstall.java"
 
 dir-create ./ide-compile-here
+file-copy ./ide/src/antChars.txt ./ide-compile-here/antChars.txt
+
 file-append ./compile-ide.bat "cd ide-compile-here"
 file-append-newline ./compile-ide.bat
 file-append ./compile-ide.bat "java -jar ../use-ccl/ccl.jar -compile ../Ide/src/main.ccl -lib ../ide-lib"
