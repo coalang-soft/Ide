@@ -237,22 +237,6 @@ def makeMenus(se){
         makeConstantControl("MenuItem", "e")
     ]);
     
-    var fileMenu = JUI.control("Menu")("File");
-    fileMenu.getItems().addAll([
-        JUI.control("MenuItem")(
-            "Load library...",
-            "onAction" => <|loadLibrary(chooseFile("Open"))>
-        ),
-        JUI.control("MenuItem")(
-        	"Save...",
-        	"onAction" => <|onSave()>
-        ),
-        JUI.control("MenuItem")(
-        	"Load...",
-        	"onAction" => <|onLoad()>
-        )
-    ]);
-    
     var antLangMenu = JUI.control("Menu")("AntLang");
     antLangMenu.getItems().add.for([
         operatorsMenu,
@@ -262,7 +246,6 @@ def makeMenus(se){
     
     var list = java("java.util.ArrayList")();
     list.add.for([
-        fileMenu,
         antLangMenu
     ]);
     
