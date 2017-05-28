@@ -1,0 +1,90 @@
+reserve parameters
+load @
+store
+reserve name
+load parameters
+get getOrDefault
+putI 0
+load undefined
+invoke 2
+store
+reserve viewFactory
+pop
+reserve toolsFactory
+load java
+putS java.util.ArrayList
+invoke 1
+get unbind
+putI 1
+invoke 1
+store
+reserve menuFactory
+load java
+putS java.util.ArrayList
+invoke 1
+get unbind
+putI 1
+invoke 1
+store
+reserve setViewFactory
+putM __setViewFactory_12__.cl0
+store
+reserve setToolsFactory
+putM __setToolsFactory_13__.cl0
+store
+reserve setMenuFactory
+putM __setMenuFactory_14__.cl0
+store
+reserve ret
+load SuitePartClass
+putA
+get push
+putM _anon0_.cl0
+putS createMenus
+invoke 2
+get push
+putM _anon1_.cl0
+putS updateView
+invoke 2
+get push
+putM _anon2_.cl0
+putS storeState
+invoke 2
+get push
+putM _anon3_.cl0
+putS restoreState
+invoke 2
+get push
+load name
+putS getName
+invoke 2
+get push
+putM _anon4_.cl0
+putS createView
+invoke 2
+get push
+putM _anon5_.cl0
+putS createTools
+invoke 2
+invoke 1
+store
+load ret
+get setProperty
+putS setViewFactory
+load setViewFactory
+invoke 2
+pop
+load ret
+get setProperty
+putS setToolsFactory
+load setToolsFactory
+invoke 2
+pop
+load ret
+get setProperty
+putS setMenuFactory
+load setMenuFactory
+invoke 2
+pop
+load ret
+ret

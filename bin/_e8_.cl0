@@ -1,0 +1,12 @@
+load file
+load File
+load file
+get getPath
+invoke 0
+invoke 1
+store
+load openFile
+load file
+load tab
+invoke 2
+pop

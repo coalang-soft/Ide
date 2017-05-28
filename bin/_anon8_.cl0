@@ -1,0 +1,13 @@
+reserve parameters
+load @
+store
+reserve r
+load parameters
+get getOrDefault
+putI 0
+load undefined
+invoke 2
+store
+load r
+invoke 0
+ret

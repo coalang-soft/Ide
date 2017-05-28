@@ -1,0 +1,4 @@
+load getSyntaxCss
+putS defaultsyntax
+invoke 1
+ret

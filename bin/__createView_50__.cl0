@@ -1,0 +1,161 @@
+reserve URL
+load java
+putS cpa.subos.io.IO
+invoke 1
+get url
+store
+load if
+load eval
+get ant
+get type
+load equals
+get bind
+invoke1 1
+putS error
+invoke 1
+invoke 1
+putM _i26_.cl0
+load undefined
+invoke 2
+nnr
+reserve table
+load JUI
+get control
+putS TableView
+invoke 1
+invoke 0
+store
+reserve inputColumn
+load JUI
+get control
+putS TableColumn
+invoke 1
+putS Input
+invoke 1
+store
+reserve outputColumn
+load JUI
+get control
+putS TableColumn
+invoke 1
+putS Result
+invoke 1
+store
+load inputColumn
+get setCellValueFactory
+load textFieldFactory
+get bind
+invoke 0
+invoke 1
+pop
+load table
+get getColumns
+invoke 0
+get add
+load inputColumn
+invoke 1
+pop
+load outputColumn
+get setCellValueFactory
+putM _anon14_.cl0
+invoke 1
+pop
+load table
+get getColumns
+invoke 0
+get add
+load outputColumn
+invoke 1
+pop
+load table
+get getItems
+invoke 0
+get add
+load makeItem
+invoke 0
+invoke 1
+pop
+reserve chartTab
+load JUI
+get control
+putS Tab
+invoke 1
+putS Chart
+invoke 1
+store
+load chartTab
+get setContent
+load JUI
+get control
+putS Label
+invoke 1
+putS Chart
+invoke 1
+invoke 1
+pop
+load chartTab
+get selectedProperty
+invoke 0
+get addListener
+load onChartTabSelection
+get bind
+load chartTab
+load table
+invoke 2
+invoke 1
+pop
+reserve tableTab
+load JUI
+get control
+putS Tab
+invoke 1
+putS Table
+putS content
+load nvp
+get bind
+invoke1 1
+load JUI
+get layout
+putS BorderPane
+invoke 1
+putS center
+load nvp
+get bind
+invoke1 1
+load table
+invoke 1
+putS bottom
+load nvp
+get bind
+invoke1 1
+load makeButtonBar
+load table
+invoke 1
+invoke 1
+invoke 2
+invoke 1
+invoke 2
+store
+reserve tabPane
+load JUI
+get control
+putS TabPane
+invoke 1
+invoke 0
+store
+load tabPane
+get getTabs
+invoke 0
+get add
+get for
+putA
+get push
+load tableTab
+invoke 1
+get push
+load chartTab
+invoke 1
+invoke 1
+pop
+load tabPane
+ret

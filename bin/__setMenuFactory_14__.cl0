@@ -1,0 +1,13 @@
+reserve parameters
+load @
+store
+reserve mf
+load parameters
+get getOrDefault
+putI 0
+load undefined
+invoke 2
+store
+load menuFactory
+load mf
+store

@@ -1,0 +1,45 @@
+reserve parameters
+load @
+store
+reserve old
+load parameters
+get getOrDefault
+putI 0
+load undefined
+invoke 2
+store
+reserve defaults
+load parameters
+get getOrDefault
+putI 1
+load undefined
+invoke 2
+store
+reserve name
+load parameters
+get getOrDefault
+putI 2
+load undefined
+invoke 2
+store
+reserve ret
+load defaults
+get property
+load name
+invoke 1
+store
+load if
+load ret
+get type
+load equals
+get bind
+invoke1 1
+putS error
+invoke 1
+invoke 1
+putM _i0_.cl0
+load undefined
+invoke 2
+nnr
+load ret
+ret

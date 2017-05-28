@@ -1,0 +1,44 @@
+reserve parameters
+load @
+store
+reserve type
+load parameters
+get getOrDefault
+putI 0
+load undefined
+invoke 2
+store
+reserve fc
+load FileChooser
+invoke 0
+store
+reserve f
+load fc
+get property
+putS show
+load concat
+get bind
+invoke1 1
+load type
+load concat
+get bind
+invoke1 1
+putS Dialog
+invoke 1
+invoke 1
+invoke 1
+load stage
+invoke 1
+store
+load if
+load f
+load equals
+get bind
+invoke1 1
+load fc
+invoke 1
+invoke 1
+putM _i19_.cl0
+putM _e19_.cl0
+invoke 2
+nnr

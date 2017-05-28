@@ -1,0 +1,36 @@
+reserve parameters
+load @
+store
+reserve chart
+load parameters
+get getOrDefault
+putI 0
+load undefined
+invoke 2
+store
+reserve antLangCode
+load parameters
+get getOrDefault
+putI 1
+load undefined
+invoke 2
+store
+reserve func
+load eval
+get ant
+load antLangCode
+invoke 1
+store
+load if
+load func
+get type
+load equals
+get bind
+invoke1 1
+putS unknown
+invoke 1
+invoke 1
+putM _i15_.cl0
+load undefined
+invoke 2
+nnr

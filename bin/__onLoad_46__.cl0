@@ -1,0 +1,18 @@
+reserve file
+load chooseFile
+putS Open
+invoke 1
+store
+load if
+load file
+get type
+get equals
+putS undefined
+invoke 1
+load not
+invoke1 1
+invoke 1
+putM _i22_.cl0
+load undefined
+invoke 2
+nnr

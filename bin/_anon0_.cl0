@@ -1,0 +1,14 @@
+reserve parameters
+load @
+store
+reserve se
+load parameters
+get getOrDefault
+putI 0
+load undefined
+invoke 2
+store
+load menuFactory
+load se
+invoke 1
+ret

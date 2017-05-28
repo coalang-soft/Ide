@@ -1,0 +1,18 @@
+load File
+load getSetting
+putS ide.res
+invoke 1
+load concat
+get bind
+invoke1 1
+load syntaxName
+load concat
+get bind
+invoke1 1
+putS -keywords.css
+invoke 1
+invoke 1
+invoke 1
+get toUrl
+invoke 0
+ret

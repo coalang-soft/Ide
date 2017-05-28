@@ -1,0 +1,17 @@
+reserve parameters
+load @
+store
+reserve i
+load parameters
+get getOrDefault
+putI 0
+load undefined
+invoke 2
+store
+load i
+get get
+putI 0
+invoke 1
+get getValue
+invoke 0
+ret

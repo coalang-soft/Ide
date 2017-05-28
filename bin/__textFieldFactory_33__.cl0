@@ -1,0 +1,75 @@
+reserve parameters
+load @
+store
+reserve cdf
+load parameters
+get getOrDefault
+putI 0
+load undefined
+invoke 2
+store
+reserve tf
+load JUI
+get control
+putS TextField
+invoke 1
+invoke 0
+store
+load tf
+get textProperty
+invoke 0
+get bindBidirectional
+load cdf
+get getValue
+invoke 0
+get get
+putI 0
+invoke 1
+invoke 1
+pop
+load tf
+get setOnAction
+load onInputChange
+get bind
+load cdf
+invoke 1
+invoke 1
+pop
+load if
+load stage
+get DnD
+get type
+get equals
+putS error
+invoke 1
+load not
+invoke1 1
+invoke 1
+putM _i11_.cl0
+load undefined
+invoke 2
+nnr
+load tf
+get caretPositionProperty
+invoke 0
+get addListener
+load onTextFieldCaret
+get bind
+load tf
+invoke 1
+invoke 1
+pop
+load tf
+get focusedProperty
+invoke 0
+get addListener
+load onTextFieldCaret
+get bind
+load tf
+invoke 1
+invoke 1
+pop
+load ObjectProperty
+load tf
+invoke 1
+ret

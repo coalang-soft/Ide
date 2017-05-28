@@ -1,0 +1,17 @@
+reserve parameters
+load @
+store
+reserve line
+load parameters
+get getOrDefault
+putI 0
+load undefined
+invoke 2
+store
+load if
+load requireChar
+invoke 1
+putM _i25_.cl0
+putM _e25_.cl0
+invoke 2
+nnr

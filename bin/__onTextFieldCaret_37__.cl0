@@ -1,0 +1,19 @@
+reserve parameters
+load @
+store
+reserve tf
+load parameters
+get getOrDefault
+putI 0
+load undefined
+invoke 2
+store
+load if
+load tf
+get isFocused
+invoke 0
+invoke 1
+putM _i9_.cl0
+load undefined
+invoke 2
+nnr

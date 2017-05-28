@@ -1,0 +1,43 @@
+reserve parameters
+load @
+store
+reserve type
+load parameters
+get getOrDefault
+putI 0
+load undefined
+invoke 2
+store
+reserve const
+load parameters
+get getOrDefault
+putI 1
+load undefined
+invoke 2
+store
+load makeCharControl
+load type
+load const
+load const
+load concat
+get bind
+invoke1 1
+putS \t(
+load concat
+get bind
+invoke1 1
+load eval
+get ant
+load const
+invoke 1
+get toString
+invoke 0
+load concat
+get bind
+invoke1 1
+putS )
+invoke 1
+invoke 1
+invoke 1
+invoke 3
+ret

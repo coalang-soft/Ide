@@ -1,0 +1,7 @@
+load stage
+get setProperty
+putS DnD
+load dnd
+invoke 0
+invoke 2
+pop

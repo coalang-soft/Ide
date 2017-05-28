@@ -1,0 +1,61 @@
+reserve parameters
+load @
+store
+reserve project
+load parameters
+get getOrDefault
+putI 0
+load undefined
+invoke 2
+store
+reserve s
+load array
+load project
+get split
+putS  \
+invoke 1
+invoke 1
+store
+reserve ret
+putA
+store
+load ret
+get push
+load File
+load mulpamDir
+get getPath
+invoke 0
+load concat
+get bind
+invoke1 1
+putS /
+load concat
+get bind
+invoke1 1
+load s
+get get
+putI 1
+invoke 1
+invoke 1
+invoke 1
+invoke 1
+invoke 1
+pop
+load ret
+get push
+load s
+get get
+putI 0
+invoke 1
+invoke 1
+pop
+load ret
+get push
+load s
+get get
+putI 1
+invoke 1
+invoke 1
+pop
+load ret
+ret

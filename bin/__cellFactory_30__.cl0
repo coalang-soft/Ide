@@ -1,0 +1,26 @@
+reserve parameters
+load @
+store
+reserve index
+load parameters
+get getOrDefault
+putI 0
+load undefined
+invoke 2
+store
+reserve data
+load parameters
+get getOrDefault
+putI 1
+load undefined
+invoke 2
+store
+load Prop
+load data
+get getValue
+invoke 0
+get get
+load index
+invoke 1
+invoke 1
+ret

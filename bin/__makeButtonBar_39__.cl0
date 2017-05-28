@@ -1,0 +1,50 @@
+reserve parameters
+load @
+store
+reserve table
+load parameters
+get getOrDefault
+putI 0
+load undefined
+invoke 2
+store
+reserve newRow
+load JUI
+get control
+putS Button
+invoke 1
+putS add row
+putS onAction
+load nvp
+get bind
+invoke1 1
+putM _anon9_.cl0
+invoke 1
+invoke 2
+store
+reserve hbox
+load JUI
+get layout
+putS HBox
+invoke 1
+putA
+get push
+load newRow
+invoke 1
+invoke 1
+store
+load if
+load antChars
+get type
+load equals
+get bind
+invoke1 1
+putS string
+invoke 1
+invoke 1
+putM _i14_.cl0
+load undefined
+invoke 2
+nnr
+load hbox
+ret

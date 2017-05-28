@@ -1,0 +1,39 @@
+reserve parameters
+load @
+store
+reserve chart
+load parameters
+get getOrDefault
+putI 0
+load undefined
+invoke 2
+store
+reserve db
+load chart
+get startDragAndDrop
+load java
+putS javafx.scene.input.TransferMode
+invoke 1
+get ANY
+invoke 1
+store
+reserve content
+load java
+putS javafx.scene.input.ClipboardContent
+invoke 1
+invoke 0
+store
+load content
+get putImage
+load chart
+get snapshot
+load undefined
+load undefined
+invoke 2
+invoke 1
+pop
+load db
+get setContent
+load content
+invoke 1
+pop

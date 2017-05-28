@@ -1,0 +1,91 @@
+reserve parameters
+load @
+store
+reserve arr
+load parameters
+get getOrDefault
+putI 0
+load undefined
+invoke 2
+store
+load java
+putS javax.swing.JOptionPane
+invoke 1
+get showMessageDialog
+load undefined
+load arr
+get toString
+invoke 0
+invoke 2
+pop
+load println
+putS Install...
+invoke 1
+pop
+reserve pb
+load java
+putS java.lang.ProcessBuilder
+invoke 1
+putA
+get push
+putS perl
+invoke 1
+get push
+load mulpamPath
+invoke 1
+get push
+putS github
+invoke 1
+get push
+load arr
+get get
+putI 1
+invoke 1
+invoke 1
+get push
+load arr
+get get
+putI 2
+invoke 1
+invoke 1
+invoke 1
+store
+load pb
+get directory
+load java
+putS java.io.File
+invoke 1
+load mulpamDir
+get getPath
+invoke 0
+invoke 1
+invoke 1
+pop
+reserve p
+load pb
+get start
+invoke 0
+store
+load stdout
+get downloadFrom
+load Stream
+load p
+get getInputStream
+invoke 0
+invoke 1
+invoke 1
+pop
+load table
+get getItems
+invoke 0
+get clear
+invoke 0
+pop
+load table
+get getItems
+invoke 0
+get add
+get for
+load items
+invoke 1
+pop

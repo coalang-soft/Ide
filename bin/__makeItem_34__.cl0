@@ -1,0 +1,24 @@
+reserve parameters
+load @
+store
+reserve expression
+load parameters
+get getOrDefault
+putI 0
+putS 
+invoke 2
+store
+putA
+get push
+load StringProperty
+load expression
+invoke 1
+putS calc
+invoke 2
+get push
+load ObjectProperty
+putS Press enter to update the result
+invoke 1
+putS result
+invoke 2
+ret

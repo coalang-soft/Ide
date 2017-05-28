@@ -1,0 +1,16 @@
+reserve code
+load createCodeArea
+putS defaultsyntax
+invoke 1
+store
+load code
+get replaceText
+putI 0
+putI 0
+putS def main(){\n\t\n}\nmain();
+invoke 3
+pop
+load CodeScrollPane
+load code
+invoke 1
+ret

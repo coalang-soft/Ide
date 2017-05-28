@@ -1,0 +1,18 @@
+load operatorsMenu
+get getItems
+invoke 0
+get add
+get for
+load makeCharControl
+get bind
+putS MenuItem
+invoke 1
+get for
+load array
+load antChars
+get toCharArray
+invoke 0
+invoke 1
+invoke 1
+invoke 1
+pop

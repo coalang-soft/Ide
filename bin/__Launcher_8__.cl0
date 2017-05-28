@@ -1,0 +1,14 @@
+reserve launch
+putM __launch_9__.cl0
+store
+putA
+get push
+load launch
+get bind
+load java
+putS javafx.application.Application
+invoke 1
+invoke 1
+putS launch
+invoke 2
+ret

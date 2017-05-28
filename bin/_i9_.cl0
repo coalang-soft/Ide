@@ -1,0 +1,8 @@
+load lastTextField
+load tf
+store
+load lastCaretPosition
+load tf
+get getCaretPosition
+invoke 0
+store

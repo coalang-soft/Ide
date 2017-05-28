@@ -1,0 +1,19 @@
+reserve f
+load runConfigs
+get property
+load category
+invoke 1
+store
+load if
+load f
+get type
+load equals
+get bind
+invoke1 1
+putS error
+invoke 1
+invoke 1
+putM _i4_.cl0
+putM _e4_.cl0
+invoke 2
+nnr

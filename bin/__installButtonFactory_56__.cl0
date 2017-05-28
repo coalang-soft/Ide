@@ -1,0 +1,62 @@
+reserve parameters
+load @
+store
+reserve table
+load parameters
+get getOrDefault
+putI 0
+load undefined
+invoke 2
+store
+reserve data
+load parameters
+get getOrDefault
+putI 1
+load undefined
+invoke 2
+store
+reserve btn
+load JUI
+get control
+putS Button
+invoke 1
+putS Install \
+load concat
+get bind
+invoke1 1
+load data
+get getValue
+invoke 0
+get get
+putI 2
+invoke 1
+invoke 1
+invoke 1
+store
+load btn
+get setOnAction
+load install
+get bind
+load table
+load data
+get getValue
+invoke 0
+invoke 2
+invoke 1
+pop
+load btn
+get setDisable
+load data
+get getValue
+invoke 0
+get get
+putI 0
+invoke 1
+get exists
+invoke 0
+invoke 1
+pop
+load Prop
+load btn
+invoke 1
+ret

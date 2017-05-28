@@ -1,0 +1,11 @@
+load antChars
+load antChars
+load concat
+get bind
+invoke1 1
+load line
+invoke 1
+store
+load requireChar
+putI 0
+store

@@ -1,0 +1,15 @@
+load charInfos
+get push
+load array
+load line
+get trim
+invoke 0
+get split
+putS  \
+invoke 1
+invoke 1
+invoke 1
+pop
+load requireChar
+putI 1
+store

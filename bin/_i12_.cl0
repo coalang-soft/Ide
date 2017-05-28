@@ -1,0 +1,41 @@
+reserve lcp
+load lastCaretPosition
+store
+reserve ltf
+load lastTextField
+store
+reserve t1
+load ltf
+get getText
+invoke 0
+get substring
+putI 0
+load lcp
+invoke 2
+store
+reserve t2
+load ltf
+get getText
+invoke 0
+get substring
+load lcp
+load ltf
+get getText
+invoke 0
+get length
+invoke 0
+invoke 2
+store
+load ltf
+get requestFocus
+invoke 0
+pop
+load if
+load ltf
+get isFocused
+invoke 0
+invoke 1
+putM _i13_.cl0
+load undefined
+invoke 2
+nnr

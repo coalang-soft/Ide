@@ -1,0 +1,45 @@
+reserve parameters
+load @
+store
+reserve tab
+load parameters
+get getOrDefault
+putI 0
+load undefined
+invoke 2
+store
+load fileTabMap
+get push
+load tab
+load undefined
+invoke 2
+pop
+load println
+load fileTabMap
+invoke 1
+pop
+load tab
+get setText
+putS Unnamed \
+load concat
+get bind
+invoke1 1
+load integer
+load ctr
+invoke 1
+get toString
+invoke 0
+invoke 1
+invoke 1
+pop
+load ctr
+load ctr
+load add
+get bind
+invoke1 1
+putI 1
+invoke 1
+store
+load createView
+invoke 0
+ret

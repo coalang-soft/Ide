@@ -1,0 +1,25 @@
+reserve parameters
+load @
+store
+reserve imageResourceIO
+load parameters
+get getOrDefault
+putI 0
+load undefined
+invoke 2
+store
+load java
+putS javafx.scene.image.Image
+invoke 1
+load java
+putS java.io.InputStream
+invoke 1
+putM _anon8_.cl0
+get bind
+load imageResourceIO
+get reader
+invoke 0
+invoke 1
+invoke 1
+invoke 1
+ret

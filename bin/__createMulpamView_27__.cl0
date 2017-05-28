@@ -1,0 +1,138 @@
+reserve parameters
+load @
+store
+reserve Prop
+load parameters
+get getOrDefault
+putI 0
+load undefined
+invoke 2
+store
+reserve mulpamDir
+load parameters
+get getOrDefault
+putI 1
+load undefined
+invoke 2
+store
+reserve mulpamPath
+load parameters
+get getOrDefault
+putI 2
+load undefined
+invoke 2
+store
+reserve projects
+load parameters
+get getOrDefault
+putI 3
+load undefined
+invoke 2
+store
+reserve tableColumn
+putM __tableColumn_28__.cl0
+store
+reserve item
+putM __item_29__.cl0
+store
+reserve cellFactory
+putM __cellFactory_30__.cl0
+store
+reserve installButtonFactory
+putM __installButtonFactory_31__.cl0
+store
+load mulpamDir
+load File
+load mulpamDir
+invoke 0
+invoke 1
+store
+load mulpamPath
+load mulpamPath
+invoke 0
+store
+load projects
+load URL
+load projects
+invoke 0
+invoke 1
+store
+load projects
+load projects
+get buildString
+invoke 0
+store
+load projects
+load array
+load projects
+get split
+putS \n
+invoke 1
+invoke 1
+store
+reserve table
+load JUI
+get control
+putS TableView
+invoke 1
+invoke 0
+store
+reserve org
+load tableColumn
+putS Organisation
+load cellFactory
+get bind
+putI 1
+invoke 1
+invoke 2
+store
+reserve prj
+load tableColumn
+putS Project
+load cellFactory
+get bind
+putI 2
+invoke 1
+invoke 2
+store
+reserve install
+load tableColumn
+putS Install
+load installButtonFactory
+get bind
+invoke 0
+invoke 2
+store
+load table
+get getColumns
+invoke 0
+get add
+get for
+putA
+get push
+load org
+invoke 1
+get push
+load prj
+invoke 1
+get push
+load install
+invoke 1
+invoke 1
+pop
+reserve items
+load item
+get for
+load projects
+invoke 1
+store
+load table
+get getItems
+invoke 0
+get add
+get for
+load items
+invoke 1
+pop
+load table
+ret

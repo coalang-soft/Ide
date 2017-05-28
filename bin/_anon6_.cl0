@@ -1,0 +1,15 @@
+reserve parameters
+load @
+store
+reserve i
+load parameters
+get getOrDefault
+putI 0
+load undefined
+invoke 2
+store
+load tabArray
+get get
+load i
+invoke 1
+ret

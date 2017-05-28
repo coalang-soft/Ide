@@ -1,0 +1,27 @@
+reserve parameters
+load @
+store
+reserve charText
+load parameters
+get getOrDefault
+putI 0
+load undefined
+invoke 2
+store
+load sendToClipboard
+load charText
+invoke 1
+pop
+load if
+load lastTextField
+get type
+get equals
+putS undefined
+invoke 1
+load not
+invoke1 1
+invoke 1
+putM _i12_.cl0
+load undefined
+invoke 2
+nnr

@@ -1,0 +1,6 @@
+load stage
+get DnD
+get handle
+load tf
+invoke 1
+pop

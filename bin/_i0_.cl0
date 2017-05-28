@@ -1,0 +1,13 @@
+load ret
+load old
+load name
+invoke 1
+store
+load defaults
+get push
+load ret
+load name
+invoke 2
+pop
+load ret
+ret

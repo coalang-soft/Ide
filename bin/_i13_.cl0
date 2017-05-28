@@ -1,0 +1,27 @@
+load ltf
+get setText
+load t1
+load concat
+get bind
+invoke1 1
+load charText
+load concat
+get bind
+invoke1 1
+load t2
+invoke 1
+invoke 1
+invoke 1
+pop
+load ltf
+get positionCaret
+load lcp
+load add
+get bind
+invoke1 1
+load charText
+get length
+invoke 0
+invoke 1
+invoke 1
+pop
