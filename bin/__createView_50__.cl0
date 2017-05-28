@@ -1,9 +1,3 @@
-reserve URL
-load java
-putS cpa.subos.io.IO
-invoke 1
-get url
-store
 load if
 load eval
 get ant
