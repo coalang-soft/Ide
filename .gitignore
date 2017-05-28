@@ -1,4 +1,4 @@
-*.cc0
+src/run.bat
 bin
-projectbin
 lib
+projectbin
