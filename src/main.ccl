@@ -8,7 +8,7 @@
 #include settingsHelper.ccl
 #include syntaxHelper.ccl
 #include Actions.ccl
-#include mulpamUIBase.ccl
+//#include mulpamUIBase.ccl
 #include antide.ccl
 
 //Global
@@ -89,15 +89,6 @@ def start(stage){
         "AntLang",
         "viewFactory" => createAntLangView,
         "menuFactory" => createAntLangMenus
-    ));
-    root.add(SuitePart(
-        "MuLPaM",
-        "viewFactory" => createMulpamView.bind(
-            java("javafx.beans.property.SimpleObjectProperty"),
-            "D:/Mulpam", 
-            "F:/Info/antlangsoft/mulpam/MuLPaM/mulpam.pl",
-            "https://rawgit.com/coalang-soft/MuLPaM-config/master/projects.txt"
-        )
     ));
     
     var scene = JUI.Scene(root);
