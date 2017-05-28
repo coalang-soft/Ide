@@ -1,5 +1,3 @@
-dir-copy F:\Info\CCL\Ide ./Ide
-
 download http://github.com/TomasMikula/RichTextFX/releases/download/v0.7-M5/richtextfx-demos-fat-0.7-M5.jar richtextfx
 download http://raw.githubusercontent.com/TomasMikula/RichTextFX/master/LICENSE richtextfx
 
@@ -10,11 +8,13 @@ github coalang-soft subos-xml-java
 github coalang-soft dragdropfx
 github coalang-soft jsearchfx
 github coalang-soft fxparts
+github coalang-soft mulpamui
 
 dir-create ./ide-lib
 dir-copy ./use-ccl/ccl ./ide-lib/ccl
 
 dir-copy ./Ide/src ./ide-lib
+dir-copy ./mulpamui ./ide-lib
 
 system "javac ./I_SuiteFX/src/io/github/coalangsoft/intern/suitefx/SuiteView.java -cp ./I_SuiteFX/src;./dragdropfx/standalone-src;./jsearchfx/standalone-src"
 system "javac ./richtextfxextension/src/test/KeywordsDemo.java -cp ./richtextfx/richtextfx-demos-fat-0.7-M5.jar;./richtextfxextension/src;./subos-xml-java/standalone-src;"

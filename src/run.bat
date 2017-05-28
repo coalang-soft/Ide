@@ -2,9 +2,11 @@
 cd ..
 md lib
 xcopy /y src lib
-xcopy /y F:\Info\Java\NewWorkspace\CCL\CclJars\ccl lib\ccl
+echo %cd%
+xcopy /s /e /y /i F:\Info\Java\NewWorkspace\CCL\CclJars\ccl lib\ccl
 md lib\run
 xcopy /y src\run lib\run
+xcopy /y F:\Info\CCL\MulpamUI lib
 md bin
 copy src\antChars.txt bin\antChars.txt
 cd bin
