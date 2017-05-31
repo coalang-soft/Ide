@@ -3,6 +3,7 @@
 #include <io/File>
 #include <Console>
 #include <io/URL>
+#include ccl/jio/Stream.cl2
 
 #include SuitePart.ccl
 #include settingsHelper.ccl
@@ -78,12 +79,195 @@ def baseViewFactory(){
     return tabs;
 }
 
+def showSettingsList(title, libID, addFunc, storeFunc){
+    var stage = java("javafx.stage.Stage")();
+    stage.setTitle(title);
+    
+    var list = java("io.github.coalangsoft.intern.fxparts.EditableListView")();
+    var items = array(getSetting(libID).split(";"));
+    list.getItems().add.for(items);
+    
+    stage.setScene(JUI.Scene(
+        JUI.layout("BorderPane")(
+            list,
+            "bottom" => JUI.control("Button")(
+                "Add",
+                "onAction" => addFunc.bind(list)
+            )
+        )
+    ));
+    
+    stage.setOnCloseRequest(storeFunc.bind(list));
+	stage.show();
+}
+
+def showCoaLibSettings(){
+    def addLib(list){
+        var dc = java("javafx.stage.DirectoryChooser")();
+        var dir = dc.showDialog(stage);
+        if(dir.type == "undefined"){
+            return;
+        }else{
+            list.getItems().add(dir.getAbsolutePath());
+        }
+    }
+    
+    def copyToLib(libDir, f){
+        File(f).copy(libDir);
+    }
+    
+    def storeLibSettings(list){
+        if(list.getItems().size()){
+            setSetting("coa.lib", list.getItems().get(0));
+            setSetting("coa.realLib", list.getItems().get(0));
+        }else{
+            var libDir = File(getSetting("coa.dir"));
+            println.for(copyToLib.bind(libDir).for(array(
+                list.getItems().toArray()
+            )));
+            setSetting("coa.realLib", getSetting("coa.dir"));
+            setSetting("coa.lib", 
+                java("java.lang.String").join(
+                    ";", array(list.getItems().toArray())
+                )
+            );
+        }
+    }
+    
+    showSettingsList("CoaLang Libraries", "coa.lib", addLib, storeLibSettings);    
+}
+
+def showJavaLibSettings(){
+    def addLib(list){
+        var dc = java("javafx.stage.DirectoryChooser")();
+        var dir = dc.showDialog(stage);
+        if(dir.type == "undefined"){
+            return;
+        }else{
+            list.getItems().add(dir.getAbsolutePath());
+        }
+    }
+    
+    def copyToLib(libDir, f){
+        File(f).copy(libDir);
+    }
+    
+    def handleCopiedFile(sb, f){
+        if(f.getPath().endsWith(".java")){
+            sb.push(f.getPath());
+        }
+    }
+    
+    def storeLibSettings(list){
+            var libDir = File(getSetting("coa.dir"));
+            copyToLib.bind(libDir).for(array(
+                list.getItems().toArray()
+            ));
+            
+            var sb = [getSetting("ide.javac")];
+            libDir.listFilesDeep().forEach(handleCopiedFile.bind(sb));
+            
+            sb.push("-cp");
+            
+            var classPath = array(list.getItems().toArray());
+            classPath.push.for(array(getSetting("coa.jars").split(";")));
+            
+            sb.push(
+                java("java.lang.String").join(";", classPath)
+            );
+            println(sb);
+            
+            var jlib = [getSetting("coa.dir")];
+            println(jlib.push.for(
+                array(getSetting("coa.jars").split(";"))
+            ));
+            setSetting("coa.realJlib", 
+                java("java.lang.String").join(
+                    ";", jlib
+                )
+            );
+            println(jlib);
+            
+            setSetting("coa.jlib", 
+                java("java.lang.String").join(
+                    ";", array(list.getItems().toArray())
+                )
+            );
+            
+            //Show Compile output
+            var consoleWindow = java("javafx.stage.Stage")();
+            consoleWindow.setTitle("Java Compile Output");
+            
+            var textArea = JUI.control("TextArea")();
+            textArea.setEditable(false);
+            
+            var outStream = java("io.github.coalangsoft.intern.fxparts.StringPropertyOutputStream")(
+                textArea.textProperty()
+            );
+            
+            var pb = java("java.lang.Runtime").getRuntime().exec(
+                sb
+            );
+            println(pb);
+            Stream(outStream).downloadFrom(Stream(pb.getErrorStream()));
+            
+            consoleWindow.setScene(JUI.Scene(textArea));
+            consoleWindow.show();
+    }
+    
+    showSettingsList("Java Libraries", "coa.jlib", addLib, storeLibSettings);
+}
+
+def showJarLibSettings(){
+    def addLib(list){
+        var dc = java("javafx.stage.FileChooser")();
+        var dir = dc.showOpenDialog(stage);
+        if(dir.type == "undefined"){
+            return;
+        }else{
+            list.getItems().add(dir.getAbsolutePath());
+        }
+    }
+    
+    def storeLibSettings(list){
+            setSetting("coa.jars", 
+                java("java.lang.String").join(
+                    ";", array(list.getItems().toArray())
+                )
+            );
+    }
+    
+    showSettingsList("JAR Libraries", "coa.jars", addLib, storeLibSettings);
+}
+
+def createMenus(){
+	var list = java("java.util.ArrayList")();
+	
+	var coaMenu = JUI.control("Menu")("CoaLang");
+	coaMenu.getItems().add(JUI.control("MenuItem")(
+		"CoaLang Libraries",
+		"onAction" => showCoaLibSettings.bind()
+	));
+    coaMenu.getItems().add(JUI.control("MenuItem")(
+        "Java Sources",
+        "onAction" => showJavaLibSettings.bind()
+    ));
+    coaMenu.getItems().add(JUI.control("MenuItem")(
+        "JAR Libraries",
+        "onAction" => showJarLibSettings.bind()
+    ));
+	
+	list.add(coaMenu);
+	return list;
+}
+
 def start(stage){
     var root = SuiteView("IDE");
     root.add(SuitePart(
         "Editor",
         "viewFactory" => baseViewFactory,
-        "toolsFactory" => createTools
+        "toolsFactory" => createTools,
+        "menuFactory" => createMenus
     ));
     root.add(SuitePart(
         "AntLang",

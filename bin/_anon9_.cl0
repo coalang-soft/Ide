@@ -1,8 +1,0 @@
-load table
-get getItems
-invoke 0
-get add
-load makeItem
-invoke 0
-invoke 1
-ret

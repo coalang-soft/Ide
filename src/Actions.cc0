@@ -1,0 +1,102 @@
+reserve Stream
+load java
+putS cpa.subos.io.IO
+invoke 1
+get stream
+store
+reserve Actions
+pop
+newscope
+reserve runConfigs
+pop
+newscope
+reserve none
+putM __none_1__.cl0
+store
+reserve coalang
+putM __coalang_2__.cl0
+store
+reserve compiledcoa
+putM __compiledcoa_3__.cl0
+store
+load runConfigs
+putA
+get push
+load none
+putS none
+invoke 2
+get push
+load coalang
+putS coalang
+invoke 2
+get push
+load compiledcoa
+putS compiledcoa
+invoke 2
+get push
+load none
+putS default
+invoke 2
+store
+oldscope
+reserve registerRunner
+putM __registerRunner_4__.cl0
+store
+reserve customRunnerDir
+load java
+putS cpa.subos.io.file.DirectoryImpl
+invoke 1
+load java
+putS java.io.File
+invoke 1
+load getSetting
+putS ide.res
+invoke 1
+load concat
+get bind
+invoke1 1
+putS runners
+invoke 1
+invoke 1
+invoke 1
+store
+load customRunnerDir
+get listFiles
+invoke 0
+get forEach
+load registerRunner
+invoke 1
+pop
+reserve jar
+putS -jar
+store
+reserve compile
+putS -compile
+store
+reserve lib
+putS -lib
+store
+reserve runFile
+putM __runFile_5__.cl0
+store
+reserve run
+putM __run_6__.cl0
+store
+reserve open
+putM __open_7__.cl0
+store
+reserve openFile
+putM __openFile_8__.cl0
+store
+load Actions
+putA
+get push
+load run
+putS run
+invoke 2
+get push
+load open
+putS open
+invoke 2
+store
+oldscope

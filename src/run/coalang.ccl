@@ -8,13 +8,15 @@ var prog = "java -jar "
         & " -compile " 
         & file.getPath()
         & " -lib "
-        & getSetting("coa.lib");
+        & getSetting("coa.realLib");
         
 var path = file.getPath();
 path = path.substring(0,path.length() - 1) & "0";
 prog = prog & "\njava -jar "
         & jarFile & " "
-        & path;
+        & path
+        & " -lib-files " 
+        & getSetting("coa.realJlib");
         
 prog = prog & "\ndel " & File(getSetting("coa.dir") & "*.cl2").getPath();
 prog = prog & "\npause\nexit";

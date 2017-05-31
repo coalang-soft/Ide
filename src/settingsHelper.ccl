@@ -1,9 +1,18 @@
 var Properties = java("java.util.Properties");
 
 var settings = Properties();
-settings.load(File(File("./settingspath.txt").buildString()).reader());
+var settingsFile = File(File("./settingspath.txt").buildString());
+
+settings.load(settingsFile.reader());
 def getSetting(name){
     return settings.native("getProperty")(name);
+}
+def setSetting(name,value){
+    settings.native("setProperty")(name,value);
+    settings.store(settingsFile.writer(), "CoaIDE settings");
+    
+    settings = Properties();
+    settings.load(settingsFile.reader());
 }
 
 var syntaxes = Properties();

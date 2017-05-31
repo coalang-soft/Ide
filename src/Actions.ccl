@@ -1,4 +1,5 @@
 #include ccl/jio/Stream.cl2
+#include <io/File>
 
 var Actions;
 
@@ -35,14 +36,15 @@ var Actions;
         );
     }
     
-    var customRunnerDir = java("cpa.subos.io.file.DirectoryImpl")(
-        java("java.io.File")(getSetting("ide.res") & "runners")
+    var customRunnerDir = File(
+        getSetting("ide.res") & "runners"
     );
     customRunnerDir.listFiles().forEach(registerRunner);
     
     var jar = "-jar";
     var compile = "-compile";
     var lib = "-lib";
+    var libFiles = "-lib-files";
     
     def runFile(file){
         

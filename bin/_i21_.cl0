@@ -1,6 +1,0 @@
-load f
-get getParent
-invoke 0
-get createDirectory
-invoke 0
-pop
