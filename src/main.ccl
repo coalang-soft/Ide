@@ -13,6 +13,7 @@
 #include antide.ccl
 
 //Global
+var Property = java("javafx.beans.property.SimpleObjectProperty");
 var tabs;
 var ctr = 1;
 
@@ -363,6 +364,35 @@ def createMenus(){
 	return list;
 }
 
+def createSettingsView(){
+    var table = JUI.control("TableView")();
+    var keys = settings.keys();
+    
+    def save(key, value){
+        setSetting(key(), value());
+    }
+    
+    def settingsEditorFactory(dat){
+        var tf = JUI.control("TextField")();
+        tf.setText(getSetting(dat.getValue()));
+        tf.setOnAction(save.bind(dat.getValue, tf.getText));
+        return Property(tf);
+    }
+    
+    <|table.getItems().add(keys.nextElement())>.while(keys.hasMoreElements);
+    
+    table.getColumns().add(JUI.control("TableColumn")(
+        "Key",
+        "cellValueFactory" => <dat|Property(dat.getValue())>
+    ));
+    table.getColumns().add(JUI.control("TableColumn")(
+        "Value",
+        "cellValueFactory" => settingsEditorFactory.bind()
+    ));
+    
+    return table;
+}
+
 def start(stage){
     var root = SuiteView("IDE");
     root.add(SuitePart(
@@ -384,6 +414,10 @@ def start(stage){
             getSetting.bind("mulpam.app"),
             getSetting.bind("mulpam.url")
         )
+    ));
+    root.add(SuitePart(
+        "Settings",
+        "viewFactory" => createSettingsView
     ));
     
     var scene = JUI.Scene(root);

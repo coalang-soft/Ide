@@ -524,6 +524,11 @@ load createAntLangMenus
 load makeMenus
 store
 oldscope
+reserve Property
+load java
+putS javafx.beans.property.SimpleObjectProperty
+invoke 1
+store
 reserve tabs
 pop
 reserve ctr
@@ -611,8 +616,11 @@ store
 reserve createMenus
 putM __createMenus_81__.cl0
 store
+reserve createSettingsView
+putM __createSettingsView_82__.cl0
+store
 reserve start
-putM __start_82__.cl0
+putM __start_85__.cl0
 store
 load Launcher
 invoke 0
