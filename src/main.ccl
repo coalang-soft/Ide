@@ -9,7 +9,7 @@
 #include settingsHelper.ccl
 #include syntaxHelper.ccl
 #include Actions.ccl
-//#include mulpamUIBase.ccl
+#include mulpamUIBase.ccl
 #include antide.ccl
 
 //Global
@@ -273,6 +273,15 @@ def start(stage){
         "AntLang",
         "viewFactory" => createAntLangView,
         "menuFactory" => createAntLangMenus
+    ));
+    root.add(SuitePart(
+        "MuLPaM",
+        "viewFactory" => createMulpamView.bind(
+            java("javafx.beans.property.SimpleObjectProperty"),
+            getSetting.bind("mulpam.dir"),
+            getSetting.bind("mulpam.app"),
+            getSetting.bind("mulpam.url")
+        )
     ));
     
     var scene = JUI.Scene(root);

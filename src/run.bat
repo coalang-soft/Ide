@@ -3,7 +3,7 @@ cd ..
 md lib
 xcopy /y src lib
 echo %cd%
-xcopy /s /e /y /i F:\Info\Java\NewWorkspace\CCL\CclJars\ccl lib\ccl
+xcopy /s /e /y /i F:\Info\Java\NewWorkspace\CCL\CclStandardLib lib\ccl
 md lib\run
 xcopy /y src\run lib\run
 xcopy /y F:\Info\CCL\MulpamUI lib
