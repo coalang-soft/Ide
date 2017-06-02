@@ -164,7 +164,7 @@ def showJavaLibSettings(){
                 list.getItems().toArray()
             ));
             
-            var sb = [getSetting("ide.javac")];
+            var sb = [getSetting("ide.jdk") & "/javac"];
             libDir.listFilesDeep().forEach(handleCopiedFile.bind(sb));
             
             sb.push("-cp");
@@ -240,6 +240,100 @@ def showJarLibSettings(){
     showSettingsList("JAR Libraries", "coa.jars", addLib, storeLibSettings);
 }
 
+def showRuntimePathSettings(){
+    def addLib(list){
+        var dc = java("javafx.stage.DirectoryChooser")();
+        var dir = dc.showDialog(stage);
+        if(dir.type == "undefined"){
+            return;
+        }else{
+            list.getItems().add(dir.getAbsolutePath());
+        }
+    }
+    
+    def storeLibSettings(list){
+            var items = array(list.getItems().toArray());
+            setSetting("coa.runpath", 
+                java("java.lang.String").join(
+                    ";", items
+                )
+            );
+            
+            var libDir = File(getSetting("coa.dir"));
+            <name|File(name).copy(libDir)>.for(items);
+    }
+    
+    showSettingsList("Runtime Path", "coa.runpath", addLib, storeLibSettings);
+}
+
+def exportCoa(){
+    var coaLibs = File("./ide-export/ccl-libs");
+    var jarLibs = File("./ide-export/jar-libs");
+    var javaLibs = File("./ide-export/java-libs");
+    
+    <f|f.createDirectory()>.for([coaLibs, jarLibs, javaLibs]);
+    
+    //Copy and compile java files
+    var javaFiles = [];
+    
+    def registerJavaFile(f){
+        if(f.getPath().endsWith(".java")){
+            javaFiles.push(f.getPath());
+        }
+    }
+    
+    println(<name|File(name).listFilesDeep().forEach(
+        registerJavaFile
+    )>.for(array(getSetting("coa.jlib").split(";"))));
+    
+    println(javaFiles);
+    
+    var javacCommand = [
+        getSetting("ide.jdk") & "/javac", "-cp", getSetting("coa.jars"),
+        "-d", "./ide-export"
+    ];
+    javacCommand.push.for(javaFiles);
+    
+    println(javacCommand);
+    var javacProcess = java("java.lang.Runtime").getRuntime().exec(javacCommand);
+    
+    stdout.downloadFrom(Stream(javacProcess.getErrorStream()));
+    
+    //Copy CCL libs
+    <f|File(f).copy(coaLibs)>.for(array(getSetting("coa.lib").split(";")));
+    
+    //Compile CoaLang program
+    var mainFile = fileTabMap.get(tabs.getSelectionModel().getSelectedItem());
+    println(mainFile);
+    println(mainFile.copy(File("./ide-export/" & mainFile.getName())));
+    mainFile = File("./ide-export/" & mainFile.getName());
+    
+    var javaCommand = [
+        "java", "-jar", getSetting("coa.jar"), "-lib", coaLibs.getPath(),
+        "-compile", "-config",
+        mainFile.getPath()
+    ];
+    var javaProcess = java("java.lang.Runtime").getRuntime().exec(
+        javaCommand, undefined, java("java.io.File")("./ide-export")
+    );
+    println(javaProcess);
+    
+    stdout.downloadFrom(Stream(javaProcess.getErrorStream()));
+    
+    coaLibs.remove();
+    javaLibs.remove();
+    jarLibs.remove();
+    
+    //Create COA package
+    var jarProcess = java("java.lang.Runtime").getRuntime().exec(
+        [getSetting("ide.jdk") & "/jar", "cf", "export.coa", "."],
+        undefined, java("java.io.File")("./ide-export")
+    );
+    println(jarProcess);
+    
+    stdout.downloadFrom(Stream(jarProcess.getErrorStream()));
+}
+
 def createMenus(){
 	var list = java("java.util.ArrayList")();
 	
@@ -255,6 +349,14 @@ def createMenus(){
     coaMenu.getItems().add(JUI.control("MenuItem")(
         "JAR Libraries",
         "onAction" => showJarLibSettings.bind()
+    ));
+    coaMenu.getItems().add(JUI.control("MenuItem")(
+        "Runtime Path",
+        "onAction" => showRuntimePathSettings.bind()
+    ));
+    coaMenu.getItems().add(JUI.control("MenuItem")(
+        "Export",
+        "onAction" => exportCoa.bind()
     ));
 	
 	list.add(coaMenu);

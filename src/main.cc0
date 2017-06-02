@@ -602,11 +602,17 @@ store
 reserve showJarLibSettings
 putM __showJarLibSettings_73__.cl0
 store
+reserve showRuntimePathSettings
+putM __showRuntimePathSettings_76__.cl0
+store
+reserve exportCoa
+putM __exportCoa_79__.cl0
+store
 reserve createMenus
-putM __createMenus_76__.cl0
+putM __createMenus_81__.cl0
 store
 reserve start
-putM __start_77__.cl0
+putM __start_82__.cl0
 store
 load Launcher
 invoke 0
