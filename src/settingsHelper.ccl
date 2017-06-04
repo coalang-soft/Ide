@@ -1,7 +1,7 @@
 var Properties = java("java.util.Properties");
 
 var settings = Properties();
-var settingsFile = File(File("./settingspath.txt").buildString());
+var settingsFile = File("./settings.properties");
 
 settings.load(settingsFile.reader());
 def getSetting(name){
@@ -16,7 +16,7 @@ def setSetting(name,value){
 }
 
 var syntaxes = Properties();
-syntaxes.load(File(getSetting("ide.res") & "syntax.properties").reader());
+syntaxes.load(File("./syntax.properties").reader());
 def getSyntax(name){
     return syntaxes.native("getProperty")(name);
 }

@@ -8,7 +8,7 @@ md lib\run
 xcopy /y src\run lib\run
 xcopy /y F:\Info\CCL\MulpamUI lib
 md bin
-copy src\antChars.txt bin\antChars.txt
+xcopy /s /e /y /i res bin
 cd bin
 java -jar F:\Info\Java\NewWorkspace\CCL\CclJars\ccl.jar -compile ../src/main.ccl -lib ..\lib -config
 copy ..\src\main.cc0 ..\bin

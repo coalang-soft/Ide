@@ -268,13 +268,13 @@ def showRuntimePathSettings(){
 }
 
 def exportCoa(){
+    File("./ide-export").remove();
+
     var coaLibs = File("./ide-export/ccl-libs");
-    var jarLibs = File("./ide-export/jar-libs");
-    var javaLibs = File("./ide-export/java-libs");
     
-    <f|f.createDirectory()>.for([coaLibs, jarLibs, javaLibs]);
+    <f|f.createDirectory()>.for([coaLibs]);
     
-    //Copy and compile java files
+    //Compile java files
     var javaFiles = [];
     
     def registerJavaFile(f){
@@ -322,8 +322,6 @@ def exportCoa(){
     stdout.downloadFrom(Stream(javaProcess.getErrorStream()));
     
     coaLibs.remove();
-    javaLibs.remove();
-    jarLibs.remove();
     
     //Create COA package
     var jarProcess = java("java.lang.Runtime").getRuntime().exec(
@@ -333,6 +331,19 @@ def exportCoa(){
     println(jarProcess);
     
     stdout.downloadFrom(Stream(jarProcess.getErrorStream()));
+    
+    //Choose directory
+    var dc = java("javafx.stage.DirectoryChooser")();
+    var dir = dc.showDialog(undefined);
+    
+    //Copy exports to this directory
+    if(dir.type.equals("undefined")!){
+        dir = File(dir.getAbsolutePath());
+        File("./ide-export/export.coa").copy(dir.child("export.coa"));
+        
+        //Copy "path" files
+        <f|File(f).copy(dir)>.for(array(getSetting("coa.runpath").split(";")));
+    }
 }
 
 def createMenus(){

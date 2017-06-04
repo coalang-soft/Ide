@@ -210,11 +210,7 @@ invoke 0
 store
 reserve settingsFile
 load File
-load File
-putS ./settingspath.txt
-invoke 1
-get buildString
-invoke 0
+putS ./settings.properties
 invoke 1
 store
 load settings
@@ -237,14 +233,7 @@ store
 load syntaxes
 get load
 load File
-load getSetting
-putS ide.res
-invoke 1
-load concat
-get bind
-invoke1 1
-putS syntax.properties
-invoke 1
+putS ./syntax.properties
 invoke 1
 get reader
 invoke 0
