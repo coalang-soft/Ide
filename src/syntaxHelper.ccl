@@ -3,7 +3,7 @@ def getSyntaxCss(name){
     if(syntaxName.type == "undefined"){
         return getSyntaxCss("defaultsyntax");
     }else{
-        return File(getSetting("ide.res") & syntaxName & "-keywords.css").toUrl();
+        return File("./" & syntaxName & "-keywords.css").toUrl();
     }
 }
 def getSyntaxXml(name){
@@ -12,6 +12,6 @@ def getSyntaxXml(name){
         println("Using default syntax instead of " & name);
         return getSyntaxXml("defaultsyntax");
     }else{
-        return File(getSetting("ide.res") & syntaxName & "-keywords.xml");
+        return File("./" & syntaxName & "-keywords.xml");
     }
 }

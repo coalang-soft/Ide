@@ -5,9 +5,9 @@ var jarFile = getSetting("coa.jar");
         
 var path = file.getPath();
 path = path.substring(0,path.length() - 1) & "0";
-var prog = "java -jar "
-        & jarFile & " "
-        & path;
+var prog = "java -jar \""
+        & jarFile & "\" "
+        & "\"" & path & "\"";
         
 prog = prog & "\npause\nexit";
 
