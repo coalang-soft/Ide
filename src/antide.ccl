@@ -75,10 +75,11 @@ def onCharControlAction(charText){
 		var ltf = lastTextField;
 		var t1 = ltf.getText().substring(0, lcp);
 		var t2 = ltf.getText().substring(lcp, ltf.getText().length());
+        println(ltf.getScene().getWindow().toFront());
 		ltf.requestFocus();
 		if(ltf.isFocused()){
-			ltf.setText(t1 & charText & t2);
-			ltf.positionCaret(lcp + charText.length());
+			ltf.setText(t1 & " " & charText & " " & t2);
+			ltf.positionCaret(lcp + charText.length() + 4);
 		}
 	}
 }
