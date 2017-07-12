@@ -134,8 +134,11 @@ def onImageDrag(chart){
 	var db = chart.startDragAndDrop(java("javafx.scene.input.TransferMode").ANY);
 	
 	var content = java("javafx.scene.input.ClipboardContent")();
-	content.putImage(chart.snapshot(undefined,undefined));
-	
+    var img = chart.snapshot(undefined,undefined);
+	content.putImage(img);
+	var f = java("java.io.File").createTempFile("chart", ".png");
+    java("javafx.embed.swing.SwingFXUtils").fromFXImage(img, undefined);
+    
 	db.setContent(content);
 }
 
