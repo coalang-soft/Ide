@@ -36,6 +36,7 @@ var XmlParser = java("cpa.subos.xml.XmlParser");
 var Map = java("java.util.HashMap");
 var fileTabMap = Map();
 
+//Creates a new editor tab
 def tabFactory(tab){
     fileTabMap.push(tab, undefined);
     println(fileTabMap);
@@ -267,6 +268,7 @@ def showRuntimePathSettings(){
     showSettingsList("Runtime Path", "coa.runpath", addLib, storeLibSettings);
 }
 
+//Exports a CoaLang program by compiling and building a jar file.
 def exportCoa(){
     File("./ide-export").remove();
 
@@ -346,9 +348,11 @@ def exportCoa(){
     }
 }
 
+//Creates the menus for the Editor perspective.
 def createMenus(){
 	var list = java("java.util.ArrayList")();
 	
+    //The CoaLang menu. TODO: Make the menu change depending on the detected language
 	var coaMenu = JUI.control("Menu")("CoaLang");
 	coaMenu.getItems().add(JUI.control("MenuItem")(
 		"CoaLang Libraries",
@@ -375,14 +379,18 @@ def createMenus(){
 	return list;
 }
 
+//Creates the settings perspective
 def createSettingsView(){
     var table = JUI.control("TableView")();
     var keys = settings.keys();
     
+    //Used to store a single setting
     def save(key, value){
         setSetting(key(), value());
     }
     
+    //Cell factory for the "value" column. Creates a TextField and wraps it into a property.
+    //"dat" is the initial value of the text field - and the current settings' value.
     def settingsEditorFactory(dat){
         var tf = JUI.control("TextField")();
         tf.setText(getSetting(dat.getValue()));
@@ -390,12 +398,16 @@ def createSettingsView(){
         return Property(tf);
     }
     
+    //Add a table entry for every known setting.
     <|table.getItems().add(keys.nextElement())>.while(keys.hasMoreElements);
     
+    //The "Key" column
     table.getColumns().add(JUI.control("TableColumn")(
         "Key",
         "cellValueFactory" => <dat|Property(dat.getValue())>
     ));
+    
+    //The "Value" column
     table.getColumns().add(JUI.control("TableColumn")(
         "Value",
         "cellValueFactory" => settingsEditorFactory.bind()
@@ -404,19 +416,27 @@ def createSettingsView(){
     return table;
 }
 
+//Initializes the application (ui) and shows the main window.
 def start(stage){
+    //This is a SuiteFX application
     var root = SuiteView("IDE");
+    
+    //Editor perspective. SuitePart is a wrapper defined in SuitePart.ccl
     root.add(SuitePart(
         "Editor",
         "viewFactory" => baseViewFactory,
         "toolsFactory" => createTools,
         "menuFactory" => createMenus
     ));
+    
+    //AntLang perspective
     root.add(SuitePart(
         "AntLang",
         "viewFactory" => createAntLangView,
         "menuFactory" => createAntLangMenus
     ));
+    
+    //MuLPaM perspective
     root.add(SuitePart(
         "MuLPaM",
         "viewFactory" => createMulpamView.bind(
@@ -426,15 +446,21 @@ def start(stage){
             getSetting.bind("mulpam.url")
         )
     ));
+    
+    //Settings perspective
     root.add(SuitePart(
         "Settings",
         "viewFactory" => createSettingsView
     ));
     
+    //Create the scene and show the application
     var scene = JUI.Scene(root);
+    
+    ///Needed for the editor perspective (syntax highlighting is set to "text")
     scene.getStylesheets().add(getSyntaxCss("defaultsyntax"));
     stage.setScene(scene);
     stage.show();
 }
 
+//Launch app
 Launcher().launch(start);

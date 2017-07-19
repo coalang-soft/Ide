@@ -1,8 +1,15 @@
+//This file contains code to run CoaLang code.
+//Special variables: file - the file with the code to run.
+
+//Create a file for a launcher script that compiles and runs the program
+//TODO: support Unix / Linux
 var launcher = File(getSetting("coa.dir")).child("launcher.bat");
 java("java.io.File")(getSetting("coa.dir")).mkdirs();
 
+//Get the CoaLang environment JAR file. TODO: use the one that runs this IDE
 var jarFile = getSetting("coa.jar");
 
+//Build the command line code to compile the CoaLang program
 var prog = "java -jar " 
         & jarFile 
         & " -compile " 
@@ -10,16 +17,21 @@ var prog = "java -jar "
         & " -lib "
         & getSetting("coa.realLib");
         
+//Get the path of the compiler output file (replace last name character by 0)
 var path = file.getPath();
 path = path.substring(0,path.length() - 1) & "0";
+
+//Build the command line code to run the compiled CoaLang program
 prog = prog & "\njava -jar "
         & jarFile & " "
         & path
         & " -lib-files " 
         & getSetting("coa.realJlib");
         
+//Make the console window stay after the program finishes.
 prog = prog & "\npause\nexit";
 
+//Save and run the launcher
 launcher.writeString(prog);
 
 java("java.lang.Runtime").getRuntime().exec(
