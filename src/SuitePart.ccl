@@ -1,9 +1,10 @@
 var SuitePartClass = java("io.github.coalangsoft.intern.suitefx.SuitePart");
+var FXCollections = java("javafx.collections.FXCollections");
 
 def SuitePart(name){
     var viewFactory;
-    var toolsFactory = java("java.util.ArrayList").unbind(1);
-    var menuFactory = java("java.util.ArrayList").unbind(1);
+    var toolsFactory = FXCollections.observableArrayList.unbind(1);
+    var menuFactory = FXCollections.observableArrayList.unbind(1);
 
     def setViewFactory(vf){
         viewFactory = vf;

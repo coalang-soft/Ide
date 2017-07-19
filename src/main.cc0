@@ -196,6 +196,11 @@ load java
 putS io.github.coalangsoft.intern.suitefx.SuitePart
 invoke 1
 store
+reserve FXCollections
+load java
+putS javafx.collections.FXCollections
+invoke 1
+store
 reserve SuitePart
 putM __SuitePart_11__.cl0
 store
@@ -461,26 +466,23 @@ store
 reserve addSeries
 putM __addSeries_47__.cl0
 store
-reserve onImageDrag
-putM __onImageDrag_48__.cl0
-store
 reserve onChartTabSelection
-putM __onChartTabSelection_49__.cl0
+putM __onChartTabSelection_48__.cl0
 store
 reserve loadLibrary
-putM __loadLibrary_50__.cl0
+putM __loadLibrary_49__.cl0
 store
 reserve chooseFile
-putM __chooseFile_51__.cl0
+putM __chooseFile_50__.cl0
 store
 reserve onSave
-putM __onSave_52__.cl0
+putM __onSave_51__.cl0
 store
 reserve onLoad
-putM __onLoad_53__.cl0
+putM __onLoad_52__.cl0
 store
 reserve makeMenus
-putM __makeMenus_54__.cl0
+putM __makeMenus_53__.cl0
 store
 reserve antChars
 pop
@@ -504,7 +506,7 @@ invoke 2
 nnr
 oldscope
 reserve createView
-putM __createView_57__.cl0
+putM __createView_56__.cl0
 store
 load createAntLangView
 load createView
@@ -570,46 +572,46 @@ load Map
 invoke 0
 store
 reserve tabFactory
-putM __tabFactory_58__.cl0
+putM __tabFactory_57__.cl0
 store
 reserve createCodeArea
-putM __createCodeArea_59__.cl0
+putM __createCodeArea_58__.cl0
 store
 reserve createView
-putM __createView_60__.cl0
+putM __createView_59__.cl0
 store
 reserve createTools
-putM __createTools_61__.cl0
+putM __createTools_60__.cl0
 store
 reserve baseViewFactory
-putM __baseViewFactory_62__.cl0
+putM __baseViewFactory_61__.cl0
 store
 reserve showSettingsList
-putM __showSettingsList_63__.cl0
+putM __showSettingsList_62__.cl0
 store
 reserve showCoaLibSettings
-putM __showCoaLibSettings_64__.cl0
+putM __showCoaLibSettings_63__.cl0
 store
 reserve showJavaLibSettings
-putM __showJavaLibSettings_68__.cl0
+putM __showJavaLibSettings_67__.cl0
 store
 reserve showJarLibSettings
-putM __showJarLibSettings_73__.cl0
+putM __showJarLibSettings_72__.cl0
 store
 reserve showRuntimePathSettings
-putM __showRuntimePathSettings_76__.cl0
+putM __showRuntimePathSettings_75__.cl0
 store
 reserve exportCoa
-putM __exportCoa_79__.cl0
+putM __exportCoa_78__.cl0
 store
 reserve createMenus
-putM __createMenus_81__.cl0
+putM __createMenus_80__.cl0
 store
 reserve createSettingsView
-putM __createSettingsView_82__.cl0
+putM __createSettingsView_81__.cl0
 store
 reserve start
-putM __start_85__.cl0
+putM __start_84__.cl0
 store
 load Launcher
 invoke 0

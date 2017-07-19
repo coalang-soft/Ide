@@ -59,7 +59,7 @@ def createView(){
 }
 
 def createTools(){
-    var list = java("java.util.ArrayList")();
+    var list = FXCollections.observableArrayList();
     list.add.for([
         JUI.control("Button")(
             "Run",

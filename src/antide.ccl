@@ -79,7 +79,7 @@ def onCharControlAction(charText){
 		ltf.requestFocus();
 		if(ltf.isFocused()){
 			ltf.setText(t1 & " " & charText & " " & t2);
-			ltf.positionCaret(lcp + charText.length() + 4);
+			ltf.positionCaret(lcp + charText.length() + 2);
 		}
 	}
 }
@@ -130,18 +130,6 @@ def addSeries(chart, antLangCode){
     }
 }
 
-def onImageDrag(chart){
-	var db = chart.startDragAndDrop(java("javafx.scene.input.TransferMode").ANY);
-	
-	var content = java("javafx.scene.input.ClipboardContent")();
-    var img = chart.snapshot(undefined,undefined);
-	content.putImage(img);
-	var f = java("java.io.File").createTempFile("chart", ".png");
-    java("javafx.embed.swing.SwingFXUtils").fromFXImage(img, undefined);
-    
-	db.setContent(content);
-}
-
 def onChartTabSelection(tab, table){
     if(tab.isSelected()){
         tab.setContent(JUI.control("Label")("Rendering..."));
@@ -151,7 +139,7 @@ def onChartTabSelection(tab, table){
                 array(table.getItems().toArray())
             )
         );
-        chart.setOnDragDetected(onImageDrag.bind(chart));
+        java("io.github.coalangsoft.dragdropfx.DragDropFX")().handle(chart);
         tab.setContent(chart);
     }
 }
@@ -248,7 +236,7 @@ def makeMenus(se){
         comparisonMenu
     ]);
     
-    var list = java("java.util.ArrayList")();
+    var list = FXCollections.observableArrayList();
     list.add.for([
         antLangMenu
     ]);
